@@ -1,0 +1,85 @@
+@import '@/assets/styles/var.scss';
+
+$content-width: 120px;
+
+.editor-sidebar {
+    position: relative;
+    flex: 0;
+    height: 100%;
+    background-color: $color-white;
+    border-right: 1px solid $border-color-primary;
+
+    .content {
+        width: $content-width;
+        height: 100%;
+        transition: width $animation-duration-base;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+        margin: 10px auto 30px;
+        transition: opacity $animation-duration-base;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .menu-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        cursor: pointer;
+
+        &.is-active {
+            color: $color-primary;
+            background-color: $color-primary-9;
+
+            svg {
+                fill: $color-primary;
+            }
+
+            &::after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 3px;
+                height: 100%;
+                background: $color-primary;
+                // border-radius: 4px;
+                content: '';
+            }
+        }
+
+        .type {
+            margin-left: 6px;
+            white-space: nowrap;
+            transition: opacity $animation-duration-base;
+        }
+    }
+
+    .collapsed {
+        position: absolute;
+        bottom: 48px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+    }
+
+    .content.is-collapsed {
+        width: 58px;
+        overflow: hidden;
+
+        .logo {
+            opacity: 0;
+        }
+
+        .menu-item .type {
+            opacity: 0;
+        }
+    }
+}

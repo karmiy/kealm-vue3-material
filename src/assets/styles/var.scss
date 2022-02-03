@@ -1,0 +1,50 @@
+/* --------------------------color-------------------------- */
+
+/* theme */
+// $color-primary: #155bd4 !default;
+$color-primary: #1394ff !default;
+// $color-primary: #0099FF !default;
+$color-primary-9: fade-out($color-primary, 0.9) !default;
+$color-white: #fff !default;
+$color-black: #000 !default;
+
+/* transparent */
+$color-text-thin-dark-1: rgba(0, 0, 0, .1) !default;
+$color-text-thin-dark-2: rgba(0, 0, 0, .2) !default;
+$color-text-thin-dark-3: rgba(0, 0, 0, .3) !default;
+$color-text-thin-dark-4: rgba(0, 0, 0, .4) !default;
+$color-text-thin-dark-5: rgba(0, 0, 0, .5) !default;
+$color-text-thin-dark-6: rgba(0, 0, 0, .6) !default;
+$color-text-thin-dark-7: rgba(0, 0, 0, .7) !default;
+$color-text-thin-dark-8: rgba(0, 0, 0, .8) !default;
+$color-text-thin-dark-9: rgba(0, 0, 0, .9) !default;
+
+/* text color */
+// $text-color-primary: #323232 !default;
+// $text-color-regular: #999 !default;
+$text-color-primary: #666 !default;
+$text-color-emphatic: #323232 !default;
+
+// border-color
+$border-color-primary: #E8E8E8 !default; // #E8E8E8
+
+// background-color
+// $background-color-primary: #F2F2F2 !default; // #F2F2F2
+// $background-color-regular: #F5F5F5 !default; // #F5F5F5
+// $background-color-secondary: #FAFAFA !default; // #FAFAFA
+$background-color-primary: #FAFAFA !default; // #FAFAFA
+
+/* z-index */
+$z-index-negative: -1 !default;
+$z-index-s: 1 !default;
+$z-index-m: 10 !default;
+$z-index-l: 100 !default;
+$z-index-xl: 1000 !default;
+
+/* animation-duration */
+$animation-duration-slow: 0.6s !default;
+$animation-duration-base: 0.3s !default;
+$animation-duration-fast: 0.15s !default;
+
+/* font-size */
+$font-size-primary: 14px !default;

@@ -1,0 +1,8 @@
+@import '@/assets/styles/var.scss';
+
+.canvas {
+    width: 375px;
+    height: 667px;
+    background-color: $color-white;
+    box-shadow: 0 0 8px 0 $color-text-thin-dark-1;
+}

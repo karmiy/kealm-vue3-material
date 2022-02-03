@@ -1,5 +1,11 @@
 # Vue3 Low Code
 
+## VSCode 配置
+
+- Q: stylelint 无效
+
+    - A: 若 VSCode 插件是 v1.2.1，需在 setting.json 配 `"stylelint.validate": ["css", "scss"]`
+
 ## 约定式实现
 
 ### 物料面板描述

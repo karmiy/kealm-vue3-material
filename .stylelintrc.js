@@ -26,9 +26,15 @@ module.exports = {
         'selector-list-comma-space-after': 'always', // 选择器逗号空格 .a, .b {}
         'selector-list-comma-space-before': 'never', // 选择器逗号空格 .a, .b {}
         'rule-empty-line-before': ['always-multi-line', {
-            except: ['first-nested']
+            except: ['first-nested', 'after-single-line-comment']
         }], // ⭐多行规则之前要有空行
         'at-rule-empty-line-before': ['always', { except: 'blockless-after-same-name-blockless', ignore: 'after-comment' }], // 在规则之前要求空行
+        'selector-pseudo-element-no-unknown': [true, {
+            ignorePseudoElements: ['v-deep']
+        }],
+        'scss/at-rule-no-unknown': [true, {
+            ignoreAtRules: ['tailwind']
+        }],
     },
     ignoreFiles: ['node_modules/**/*'],
 }

@@ -1,0 +1,11 @@
+@import '@/assets/styles/var.scss';
+
+.editor-canvas {
+    flex: 1;
+    overflow: auto;
+
+    .wrapper {
+        padding: 48px 0;
+        padding-left: 20%;
+    }
+}

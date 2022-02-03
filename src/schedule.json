@@ -1,0 +1,13 @@
+{
+    "pageConfig": {},
+    "canvas": [
+        {
+            "id": 1,
+            "type": "Button",
+            "props": {
+                "children": "按钮",
+                "type": "primary"
+            }
+        }
+    ]
+}

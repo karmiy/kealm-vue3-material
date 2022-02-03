@@ -1,0 +1,31 @@
+@import '@/assets/styles/var.scss';
+
+.editor-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 24px;
+    background-color: $color-white;
+    border-bottom: 1px solid $border-color-primary;
+
+    .wrap-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .tools {
+        display: flex;
+        align-items: center;
+        margin-right: 48px;
+
+        li {
+            margin-right: 30px;
+            cursor: pointer;
+        }
+    }
+}

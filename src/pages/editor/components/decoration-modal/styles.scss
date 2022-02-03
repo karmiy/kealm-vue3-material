@@ -1,0 +1,64 @@
+@import '@/assets/styles/var.scss';
+@import '@/assets/styles/mixins.scss';
+
+.editor-decoration-modal {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    bottom: 0;
+    background-color: $color-white;
+    box-shadow: -4px 0 8px 0 $color-text-thin-dark-1;
+
+    .wrapper {
+        width: 360px;
+
+        @include scroll-bar(0);
+    }
+
+    .collapsed {
+        position: absolute;
+        top: 50%;
+        left: -20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 80px;
+        background-color: $color-white;
+        border-radius: 16px 0 0 16px;
+        box-shadow: -4px 0 8px 0 $color-text-thin-dark-1;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        height: 72px;
+        padding: 0 12px;
+        color: $text-color-emphatic;
+        font-weight: bold;
+        font-size: 18px;
+        border-bottom: 1px solid $border-color-primary;
+    }
+
+    .group-title {
+        position: relative;
+        padding: 8px 12px;
+        color: $text-color-emphatic;
+        font-size: 14px;
+        background-color: $color-primary-9;
+
+        div::before {
+            width: 4px;
+            height: 16px;
+            margin-right: 8px;
+            background-color: $color-primary;
+            content: '';
+        }
+    }
+
+    .group-body {
+        padding: 12px 20px;
+    }
+}

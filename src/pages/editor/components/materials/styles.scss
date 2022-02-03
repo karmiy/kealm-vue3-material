@@ -1,0 +1,40 @@
+@import '@/assets/styles/var.scss';
+
+.editor-materials {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    box-sizing: border-box;
+    width: 176px;
+    height: 100%;
+    padding: 16px;
+    overflow: auto;
+    font-size: 12px;
+    background-color: $color-white;
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 72px;
+        margin-bottom: 8px;
+        padding: 12px 0;
+        cursor: move;
+        user-select: none;
+
+        .icon {
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        &:hover {
+            color: $color-white;
+            background-color: $color-primary;
+
+            svg {
+                fill: $color-white;
+            }
+        }
+    }
+}

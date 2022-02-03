@@ -1,0 +1,20 @@
+@import './mixins.scss';
+
+// 扩大点击区域
+.hit-slop {
+    &::after {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        bottom: -20px;
+        left: -20px;
+        z-index: $z-index-s;
+        content: '';
+    }
+}
+
+// 隐藏式滚动条
+.scroll-hidden {
+
+    @include scroll-bar(0);
+}
