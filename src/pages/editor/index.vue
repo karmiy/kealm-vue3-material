@@ -3,16 +3,17 @@ import { ref } from 'vue';
 import { SideBar } from './components';
 import { Canvas, DecorationModal, Header, Materials } from './components';
 
-const activeMenuType = ref('basic');
+// 当前物料组
+const materialGroup = ref('basic');
 </script>
 
 <template>
     <div class="editor">
-        <SideBar v-model="activeMenuType" />
+        <SideBar v-model="materialGroup" />
         <div class="flex flex-1 flex-col">
             <Header />
             <div class="flex flex-1 overflow-hidden pt-4">
-                <Materials />
+                <Materials :group="materialGroup" />
                 <Canvas />
                 <DecorationModal />
             </div>

@@ -1,17 +1,16 @@
 <script setup lang="ts" name="EditorSidebar">
 import { computed, ref, watch } from 'vue';
 import { Icon } from '@/components';
-import { MENU_TYPES } from './constants';
+import { useMaterials } from '@/hooks';
 
 const props = defineProps<{ modelValue?: string }>();
 const emits = defineEmits(['update:modelValue']);
 
-defineExpose({
-    count: 1,
-});
+/* -------------------- BLOCK: 物料分类 -------------------- */
+const { materialGroups } = useMaterials();
 
 /* -------------------- BLOCK: 当前选中 -------------------- */
-const activeKey = ref(props.modelValue ?? MENU_TYPES[0].key);
+const activeKey = ref(props.modelValue ?? materialGroups[0].key);
 const onActiveChange = (key: string) => {
     activeKey.value = key;
     emits('update:modelValue', key);
@@ -41,7 +40,7 @@ const collapsedIconType = computed(() => `double-arrow-${isCollapsed.value ? 'ri
                 </div>
                 <ul class="menu">
                     <li
-                        v-for="item in MENU_TYPES"
+                        v-for="item in materialGroups"
                         :key="item.key"
                         :class="{ 'menu-item': true, 'is-active': item.key === activeKey }"
                         @click="onActiveChange(item.key)"

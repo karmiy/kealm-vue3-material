@@ -1,9 +1,9 @@
 <script lang="ts">
 import { computed, ref } from 'vue';
-import { isEmpty } from '@/utils/validation';
+import { isNil } from 'lodash-es';
 const isCollapsed = ref(false);
 export const toggleCollapsed = (value?: boolean) => {
-    isCollapsed.value = isEmpty(value) ? !isCollapsed.value : value;
+    isCollapsed.value = isNil(value) ? !isCollapsed.value : value;
 };
 </script>
 

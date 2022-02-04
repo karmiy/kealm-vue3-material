@@ -8,8 +8,10 @@ declare module 'vue' {
     CollapseTransition: typeof import('./src/components/collapse-transition/index.vue')['default']
     ConfigItem: typeof import('./src/components/config-item/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    Empty: typeof import('./src/components/empty/index.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
   }
 }

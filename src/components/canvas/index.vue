@@ -1,12 +1,8 @@
-<script setup lang="ts" name="Canvas">
-const click = () => {
-    //
-};
-</script>
+<script setup lang="ts" name="Canvas"></script>
 
 <template>
     <div class="canvas cursor-auto" @mousedown.stop @mousemove.stop @mouseup.stop>
-        <van-button type="primary">朴素按钮</van-button>
+        <km-Button type="primary" icon="plus">朴素按钮</km-Button>
     </div>
 </template>
 

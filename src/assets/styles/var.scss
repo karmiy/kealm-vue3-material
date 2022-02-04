@@ -8,6 +8,22 @@ $color-primary-9: fade-out($color-primary, 0.9) !default;
 $color-white: #fff !default;
 $color-black: #000 !default;
 
+// 中立色
+$color-black-1: #000 !default;
+$color-black-2: #323232 !default;
+$color-black-3: #555 !default;
+$color-black-4: #666 !default;
+$color-black-5: #999 !default;
+$color-black-6: #B2B2B2 !default;
+$color-black-7: #B5B5B5 !default;
+$color-black-8: #CCC !default;
+$color-black-9: #DDD !default;
+$color-black-10: #E8E8E8 !default;
+$color-black-11: #EEE !default;
+$color-black-12: #F2F2F2 !default;
+$color-black-13: #F5F5F5 !default;
+$color-black-14: #FAFAFA !default;
+
 /* transparent */
 $color-text-thin-dark-1: rgba(0, 0, 0, .1) !default;
 $color-text-thin-dark-2: rgba(0, 0, 0, .2) !default;
@@ -22,17 +38,17 @@ $color-text-thin-dark-9: rgba(0, 0, 0, .9) !default;
 /* text color */
 // $text-color-primary: #323232 !default;
 // $text-color-regular: #999 !default;
-$text-color-primary: #666 !default;
-$text-color-emphatic: #323232 !default;
+$text-color-emphatic: $color-black-2 !default;
+$text-color-primary: $color-black-4 !default;
 
 // border-color
-$border-color-primary: #E8E8E8 !default; // #E8E8E8
+$border-color-primary: $color-black-10 !default; // #E8E8E8
 
 // background-color
 // $background-color-primary: #F2F2F2 !default; // #F2F2F2
 // $background-color-regular: #F5F5F5 !default; // #F5F5F5
 // $background-color-secondary: #FAFAFA !default; // #FAFAFA
-$background-color-primary: #FAFAFA !default; // #FAFAFA
+$background-color-primary: $color-black-14 !default; // #FAFAFA
 
 /* z-index */
 $z-index-negative: -1 !default;

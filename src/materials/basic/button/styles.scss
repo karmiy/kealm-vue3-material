@@ -1,0 +1,8 @@
+@import '@/assets/styles/var.scss';
+@import '@/assets/styles/mixins.scss';
+
+@include material(button) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

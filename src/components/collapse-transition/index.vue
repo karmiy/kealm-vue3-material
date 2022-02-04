@@ -4,7 +4,7 @@
     </transition>
 </template>
 <script setup lang="ts" name="CollapseTransition">
-import { isEmpty } from '@/utils/validation';
+import { isNil } from 'lodash-es';
 
 const { direction = 'horizontal' } = defineProps<{ direction?: 'vertical' | 'horizontal' }>();
 
@@ -35,15 +35,15 @@ const on = {
         el.dataset.oldOverflow = el.style.overflow;
 
         el.style[maxRectUnit] = el[scrollRectUnit] !== 0 ? `${el[scrollRectUnit]}px` : '0';
-        !isEmpty(el.dataset.oldPaddingS) && (el.style[paddingSUnit] = el.dataset.oldPaddingS);
-        !isEmpty(el.dataset.oldPaddingE) && (el.style[paddingEUnit] = el.dataset.oldPaddingE);
+        !isNil(el.dataset.oldPaddingS) && (el.style[paddingSUnit] = el.dataset.oldPaddingS);
+        !isNil(el.dataset.oldPaddingE) && (el.style[paddingEUnit] = el.dataset.oldPaddingE);
 
         el.style.overflow = 'hidden';
     },
 
     afterEnter(el: HTMLElement) {
         el.style[maxRectUnit] = '';
-        !isEmpty(el.dataset.oldOverflow) && (el.style.overflow = el.dataset.oldOverflow);
+        !isNil(el.dataset.oldOverflow) && (el.style.overflow = el.dataset.oldOverflow);
     },
 
     beforeLeave(el: HTMLElement) {
@@ -66,9 +66,9 @@ const on = {
 
     afterLeave(el: HTMLElement) {
         el.style[maxRectUnit] = '';
-        !isEmpty(el.dataset.oldOverflow) && (el.style.overflow = el.dataset.oldOverflow);
-        !isEmpty(el.dataset.oldPaddingS) && (el.style[paddingSUnit] = el.dataset.oldPaddingS);
-        !isEmpty(el.dataset.oldPaddingE) && (el.style[paddingEUnit] = el.dataset.oldPaddingE);
+        !isNil(el.dataset.oldOverflow) && (el.style.overflow = el.dataset.oldOverflow);
+        !isNil(el.dataset.oldPaddingS) && (el.style[paddingSUnit] = el.dataset.oldPaddingS);
+        !isNil(el.dataset.oldPaddingE) && (el.style[paddingEUnit] = el.dataset.oldPaddingE);
     },
 };
 </script>

@@ -1,0 +1,17 @@
+@import '@/assets/styles/var.scss';
+
+.empty {
+    .icon {
+        fill: $color-black-9;
+    }
+
+    ::v-deep(.el-empty__description) p {
+        // color: $text-color-dispensable;
+        color: $color-black-6;
+    }
+
+
+    ::v-deep(.el-empty__image) {
+        width: auto;
+    }
+}
