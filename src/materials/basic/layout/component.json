@@ -1,0 +1,11 @@
+{
+    "label": "布局",
+    "icon": "layout",
+    "defaultConfig": {
+        "list": [
+            { "span": 8 },
+            { "span": 8 },
+            { "span": 8 }
+        ]
+    }
+}

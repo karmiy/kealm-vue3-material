@@ -5,7 +5,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
 import styleImport, { VantResolve } from 'vite-plugin-style-import';
-import vueSetupExtend from 'vite-plugin-vue-setup-extend';
+// import vueSetupExtend from 'vite-plugin-vue-setup-extend';
 const { resolve } = require('path');
 
 // https://vitejs.dev/config/
@@ -17,7 +17,8 @@ export default defineConfig({
         vueJsx({
             // options are passed on to @vue/babel-plugin-jsx
         }),
-        vueSetupExtend(), // 在 <script /> 上可加 name
+        // TODO: 先不使用，目前发现会导致 source-map 无效
+        // vueSetupExtend(), // 在 <script /> 上可加 name
         AutoImport({
             resolvers: [ElementPlusResolver()],
         }),

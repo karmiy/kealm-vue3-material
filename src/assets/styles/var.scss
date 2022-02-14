@@ -4,6 +4,8 @@
 // $color-primary: #155bd4 !default;
 $color-primary: #1394ff !default;
 // $color-primary: #0099FF !default;
+$color-primary-5: fade-out($color-primary, 0.5) !default;
+$color-primary-7: fade-out($color-primary, 0.7) !default;
 $color-primary-9: fade-out($color-primary, 0.9) !default;
 $color-white: #fff !default;
 $color-black: #000 !default;
@@ -23,6 +25,7 @@ $color-black-11: #EEE !default;
 $color-black-12: #F2F2F2 !default;
 $color-black-13: #F5F5F5 !default;
 $color-black-14: #FAFAFA !default;
+$color-black-15: #FCFCFC !default;
 
 /* transparent */
 $color-text-thin-dark-1: rgba(0, 0, 0, .1) !default;
@@ -49,6 +52,7 @@ $border-color-primary: $color-black-10 !default; // #E8E8E8
 // $background-color-regular: #F5F5F5 !default; // #F5F5F5
 // $background-color-secondary: #FAFAFA !default; // #FAFAFA
 $background-color-primary: $color-black-14 !default; // #FAFAFA
+$background-color-light: $color-black-15 !default; // #FCFCFC
 
 /* z-index */
 $z-index-negative: -1 !default;

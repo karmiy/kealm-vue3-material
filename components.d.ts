@@ -8,11 +8,19 @@ declare module 'vue' {
     CollapseTransition: typeof import('./src/components/collapse-transition/index.vue')['default']
     ConfigItem: typeof import('./src/components/config-item/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElInputNumber: typeof import('element-plus/es')['ElInputNumber']
+    ElOption: typeof import('element-plus/es')['ElOption']
+    ElOptionGroup: typeof import('element-plus/es')['ElOptionGroup']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Empty: typeof import('./src/components/empty/index.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
+    Placeholder: typeof import('./src/components/placeholder/index.vue')['default']
+    Shape: typeof import('./src/components/shape/index.vue')['default']
   }
 }
 

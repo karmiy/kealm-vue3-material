@@ -1,8 +1,9 @@
-<script setup lang="ts" name="EditorCanvas">
+<script setup lang="ts">
 import { ref } from 'vue';
 import { Canvas } from '@/components';
 import { useDrag } from '@/hooks';
 
+/* -------------------- BLOCK: 画布拖拽 -------------------- */
 const wrapperEl = ref<HTMLElement | null>(null);
 const { style } = useDrag(wrapperEl);
 // const onWrapMousedown = () => {}

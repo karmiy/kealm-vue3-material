@@ -1,7 +1,9 @@
-<script setup lang="ts" name="EditorMaterials">
+<script setup lang="ts">
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { Empty, Icon } from '@/components';
 import { useMaterials } from '@/hooks';
+import { useCanvasStore } from '@/store';
 
 const props = defineProps<{
     group: string;
@@ -12,11 +14,29 @@ const { getMaterialsByGroup } = useMaterials();
 const materials = computed(() => getMaterialsByGroup(props.group));
 
 /* -------------------- BLOCK: 拖拽 -------------------- */
-const onDragStart = () => {
-    console.log('start');
+const canvasStore = useCanvasStore();
+const { registryDragMaterial, releaseDragMaterial } = canvasStore;
+const { dragMaterial, templates, isDragging } = storeToRefs(canvasStore);
+
+const onDragStart = (name: string) => {
+    isDragging.value = true;
+    registryDragMaterial(name);
 };
+
+/* 顺序：drop => end */
 const onDragEnd = () => {
-    console.log('end');
+    isDragging.value = false;
+    if (!dragMaterial.value) return;
+
+    // 结束拖拽时，如果鼠标在画布外，需要移除辅助块
+    const { waitToInsertIndex } = dragMaterial.value;
+    if (waitToInsertIndex !== -1) {
+        // const curTemplates = [...templates.value];
+        templates.value.splice(waitToInsertIndex, 1);
+        // setTemplates(curTemplates);
+    }
+
+    releaseDragMaterial();
 };
 </script>
 
@@ -29,7 +49,7 @@ const onDragEnd = () => {
             :key="item.label"
             class="item"
             draggable="true"
-            @dragstart="onDragStart"
+            @dragstart="onDragStart(item.name)"
             @dragend="onDragEnd"
         >
             <Icon :type="item.icon" :size="30" />

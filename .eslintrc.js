@@ -22,9 +22,12 @@ module.exports = {
     ],
     plugins: ['@typescript-eslint', 'vue', 'simple-import-sort'],
     rules: {
-        indent: [2, 4], // 4 格缩进
+        // indent: [2, 4], // 4 格缩进
+        indent: 'off', // 4 格缩进
         semi: 2, // 行尾分号
-        'no-unused-vars': 1, // 未使用警告即可
+        'no-unused-vars': 0, // 不用这个，用 ts 的 @typescript-eslint/no-unused-vars
+        // 'no-unused-vars': 'off',
+        // '@typescript-eslint/no-unused-vars': ['warn'],
         /** prettier */
         'prettier/prettier': 2,
         /** ts */
@@ -43,8 +46,9 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 0, // 配置可以使用赋值断言，如 foo!.bar.toFixed(2);
         '@typescript-eslint/prefer-optional-chain': 2, // 使用可选链 foo?.a?.b?.c 替换 foo && foo.a && foo.a.b && foo.a.b.c;
         '@typescript-eslint/prefer-ts-expect-error': 2, // 使用 @ts-expect-error over 替代 @ts-ignore
-        // '@typescript-eslint/indent': [2, 4], // 与 eslint indent 对应
+        '@typescript-eslint/indent': ['error', 4], // 与 eslint indent 对应
         '@typescript-eslint/type-annotation-spacing': 2, // 要求类型间隔一致，如 const a:number = 1; 应改为 const a: number = 1; type Geo = (name: string)=>string; 应改为 type Geo = (name: string) => string;
+        '@typescript-eslint/no-unused-vars': 1,
         /** Vue */
         'no-undef': 0, // vue3 有些自带变量，没定义也要使用
         'vue/html-indent': [2, 4], // Vue 缩进 4 格
@@ -52,6 +56,8 @@ module.exports = {
         // 'vue/html-quotes': [2, 'single'], // Vue 模板内属性单引号
         'vue/max-attributes-per-line': [0, { singleline: 3, multiline: { max: 1 } }], // （去除，和 prettier 冲突）强制每行最大属性数，此处配置一行最多三个属性，多行每行只能有一个属性
         'vue/no-multiple-template-root': 0, // vue3 不一定只有一个根元素
+        'vue/no-v-for-template-key': 0, // vue3 可以在 <template></template> 上挂 key (https://v3.vuejs.org/guide/migration/key-attribute.html#on-conditional-branches)
+        'vue/require-default-prop': 0,
         'simple-import-sort/imports': [
             'error',
             {

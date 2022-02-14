@@ -1,11 +1,11 @@
 import { App, AsyncComponentLoader, defineAsyncComponent } from 'vue';
-import { camelCase, capitalize, kebabCase } from 'lodash-es';
+import { createSignClassName, createSignComponentName } from './shared';
 
-export const materialPrefix = 'km';
+export const materialPrefix = 'mat';
 
-export const materialClassName = (block: string) => kebabCase(`${materialPrefix} ${block}`);
+export const materialClassName = (block: string) => createSignClassName(materialPrefix, block);
 export const materialComponentName = (block: string) =>
-    capitalize(camelCase(`${materialPrefix} ${block}`));
+    createSignComponentName(materialPrefix, block);
 
 export const createMaterialRegister = (options: { name: string; loader: AsyncComponentLoader }) => {
     const { name, loader } = options;

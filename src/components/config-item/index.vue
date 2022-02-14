@@ -1,8 +1,23 @@
-<script setup lang="ts" name="ConfigItem">
-const { label, align = 'center' } = defineProps<{
+<script setup lang="ts">
+import { PropType } from 'vue';
+/* {
     label: string;
     align?: 'top' | 'center' | 'bottom';
-}>();
+} */
+defineProps({
+    label: {
+        type: String,
+        required: true,
+    },
+    align: {
+        type: String as PropType<'top' | 'center' | 'bottom'>,
+        default: 'center',
+    },
+    list: {
+        type: Array as PropType<Array<{ label: string }>>,
+        default: () => [],
+    },
+});
 </script>
 
 <template>
@@ -16,7 +31,9 @@ const { label, align = 'center' } = defineProps<{
             'items-end': align === 'bottom',
         }"
     >
-        <div class="w-72 label text-size-13">{{ label }}</div>
+        <div class="w-72 label text-size-13">
+            {{ label }}
+        </div>
         <div class="flex-1">
             <slot />
         </div>

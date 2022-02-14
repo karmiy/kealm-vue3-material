@@ -1,0 +1,8 @@
+@import '@/assets/styles/var.scss';
+@import '@/assets/styles/mixins.scss';
+
+@include beauty(icon) {
+    .el-select {
+        width: 100%;
+    }
+}

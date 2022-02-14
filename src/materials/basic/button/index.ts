@@ -1,5 +1,8 @@
-import { createMaterialRegister } from '@/utils/material';
+import { createMaterialRegister, materialComponentName } from '@/utils/material';
 
 export default {
-    install: createMaterialRegister({ name: 'KmButton', loader: () => import('./index.vue') }),
+    install: createMaterialRegister({
+        name: materialComponentName('button'),
+        loader: () => import('./index.vue'),
+    }),
 };

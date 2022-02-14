@@ -1,4 +1,4 @@
-<script setup lang="ts" name="EditorSidebar">
+<script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { Icon } from '@/components';
 import { useMaterials } from '@/hooks';
@@ -51,7 +51,7 @@ const collapsedIconType = computed(() => `double-arrow-${isCollapsed.value ? 'ri
                     </li>
                 </ul>
                 <div class="collapsed hit-slop" @click="isCollapsed = !isCollapsed">
-                    <Icon :type="collapsedIconType" :size="20" />
+                    <Icon :type="collapsedIconType" :size="16" />
                     <!-- <el-icon :size="20">
                         <d-arrow-left v-if="!isCollapsed" />
                         <d-arrow-right v-else />

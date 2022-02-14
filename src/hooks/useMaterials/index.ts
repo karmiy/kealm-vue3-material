@@ -6,7 +6,7 @@ const mapOfName = new Map<string, EditorNS.Material>();
 Object.keys(materials).forEach(path => {
     // ../../materials/basic/button/component.json
     const [group, name] = path.split('/').slice(-3);
-    const item = materials[path] as EditorNS.Material;
+    const item = { ...materials[path], name, group } as EditorNS.Material;
 
     const currentGroup = mapOfGroup.get(group);
     const nextGroup = currentGroup ? [...currentGroup, item] : [item];

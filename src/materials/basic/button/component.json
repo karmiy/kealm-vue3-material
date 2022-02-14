@@ -1,4 +1,200 @@
 {
     "label": "按钮",
-    "icon": "save"
+    "icon": "btn",
+    "defaultConfig": {
+        "text": "这是按钮",
+        "type": "primary",
+        "size": "large",
+        "iconPosition": "left",
+        "loadingText": "加载中...",
+        "loadingType": "circular",
+        "loadingSize": 20
+    },
+    "fields": [
+        {
+            "title": "基础配置",
+            "children": [
+                {
+                    "prop": "text",
+                    "label": "按钮文案",
+                    "beauty": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "prop": "disabled",
+                    "label": "禁用状态",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                }
+            ]
+        },
+        {
+            "title": "样式配置",
+            "children": [
+                {
+                    "prop": "type",
+                    "label": "按钮类型",
+                    "beauty": {
+                        "type": "select",
+                        "config": {
+                            "options": [
+                                { "label": "默认", "value": "default" },
+                                { "label": "基本", "value": "primary" },
+                                { "label": "成功", "value": "success" },
+                                { "label": "警告", "value": "warning" },
+                                { "label": "危险", "value": "danger" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "prop": "size",
+                    "label": "按钮大小",
+                    "beauty": {
+                        "type": "select",
+                        "config": {
+                            "options": [
+                                { "label": "大号", "value": "large" },
+                                { "label": "常规", "value": "normal" },
+                                { "label": "小号", "value": "small" },
+                                { "label": "迷你", "value": "mini" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "prop": "color",
+                    "label": "自定义颜色",
+                    "beauty": {
+                        "type": "color"
+                    }
+                },
+                {
+                    "prop": "plain",
+                    "label": "朴素按钮",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                },
+                {
+                    "prop": "square",
+                    "label": "方块按钮",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                },
+                {
+                    "prop": "round",
+                    "label": "圆形按钮",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                },
+                {
+                    "prop": "hairline",
+                    "label": "细边框",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                }
+            ]
+        },
+        {
+            "title": "图标配置",
+            "children": [
+                {
+                    "prop": "icon",
+                    "label": "按钮图标",
+                    "beauty": {
+                        "type": "icon"
+                    }
+                },
+                {
+                    "prop": "iconPosition",
+                    "label": "图标位置",
+                    "beauty": {
+                        "type": "select",
+                        "config": {
+                            "options": [
+                                { "label": "左侧", "value": "left" },
+                                { "label": "右侧", "value": "right" }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "title": "加载状态配置",
+            "children": [
+                {
+                    "prop": "loading",
+                    "label": "加载中",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                },
+                {
+                    "prop": "loadingText",
+                    "label": "加载文案",
+                    "beauty": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "prop": "loadingType",
+                    "label": "加载类型",
+                    "beauty": {
+                        "type": "select",
+                        "config": {
+                            "options": [
+                                { "label": "Circular", "value": "circular" },
+                                { "label": "Spinner", "value": "spinner" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "prop": "loadingSize",
+                    "label": "图标大小",
+                    "beauty": {
+                        "type": "number"
+                    }
+                }
+            ]
+        },
+        {
+            "title": "结构配置",
+            "children": [
+                {
+                    "prop": "block",
+                    "label": "块级元素",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                }
+            ]
+        },
+        {
+            "title": "跳转配置",
+            "children": [
+                {
+                    "prop": "url",
+                    "label": "跳转链接",
+                    "beauty": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "prop": "replace",
+                    "label": "替换历史",
+                    "beauty": {
+                        "type": "switch"
+                    }
+                }
+            ]
+        }
+    ]
 }

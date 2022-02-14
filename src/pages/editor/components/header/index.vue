@@ -1,4 +1,4 @@
-<script setup lang="ts" name="EditorHeader">
+<script setup lang="ts">
 import { Icon } from '@/components';
 
 const tools = [

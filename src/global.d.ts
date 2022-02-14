@@ -1,5 +1,12 @@
 declare namespace EditorNS {
-    type JSONValidValue = string | number | boolean | null;
+    type BasicValue = string | number | boolean | null;
+    interface CustomValue {
+        $type: 'Date';
+        value: string | number;
+    }
+
+    type FlatValue = BasicValue & CustomValue;
+    type SchemaValue = FlatValue | Array<FlatValue> | Record<string, FlatValue>;
 
     // 页面配置
     interface PageConfig {
@@ -8,33 +15,44 @@ declare namespace EditorNS {
     }
 
     // 模板项
-    type PropsValue =
-        | JSONValidValue
-        | { $type: 'Date'; value: string | number }
-        | Array<PropsValue>;
+    interface TemplateConfig {
+        [key: string]: SchemaValue;
+    }
 
     interface TemplateItem {
         id: number;
         type: string;
-        props?: {
-            [key: string]: PropsValue;
-        };
-        children?: JSONValidValue | Array<TemplateItem>;
+        config?: TemplateConfig;
+        children?: Array<TemplateItem>;
     }
 
     // 画板配置
-    type Canvas = Array<TemplateItem>;
+    type CanvasConfig = Array<TemplateItem>;
 
     // JSON 配置
     interface SchemaConfig {
         pageConfig: PageConfig;
-        canvas: Canvas;
+        canvasConfig: CanvasConfig;
     }
 
     // 物料
     interface Material {
         label: string;
         icon: string;
+        name: string; // json 文件不需要标明，自动根据 src/materials/[group]/[name]/index.vue 解析
+        group: string; // json 文件不需要标明，自动根据 src/materials/[group]/[name]/index.vue 解析
+        defaultConfig?: TemplateConfig;
+        fields?: Array<{
+            title: string;
+            children: Array<{
+                prop: string;
+                label: string;
+                beauty: {
+                    type: string;
+                    config?: Record<string, SchemaValue>;
+                };
+            }>;
+        }>;
     }
 
     interface MaterialGroup {
@@ -43,3 +61,5 @@ declare namespace EditorNS {
         icon: string;
     }
 }
+
+type Timer = ReturnType<typeof setTimeout>;

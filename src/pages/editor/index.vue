@@ -1,7 +1,7 @@
-<script setup lang="ts" name="Editor">
+<script setup lang="ts">
 import { ref } from 'vue';
 import { SideBar } from './components';
-import { Canvas, DecorationModal, Header, Materials } from './components';
+import { BeautyModal, Canvas, Header, Materials } from './components';
 
 // 当前物料组
 const materialGroup = ref('basic');
@@ -15,7 +15,7 @@ const materialGroup = ref('basic');
             <div class="flex flex-1 overflow-hidden pt-4">
                 <Materials :group="materialGroup" />
                 <Canvas />
-                <DecorationModal />
+                <BeautyModal />
             </div>
         </div>
     </div>

@@ -3,7 +3,7 @@
         <slot></slot>
     </transition>
 </template>
-<script setup lang="ts" name="CollapseTransition">
+<script setup lang="ts">
 import { isNil } from 'lodash-es';
 
 const { direction = 'horizontal' } = defineProps<{ direction?: 'vertical' | 'horizontal' }>();
@@ -73,15 +73,5 @@ const on = {
 };
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/var.scss';
-
-.collapse-transition-enter-active,
-.collapse-transition-leave-active {
-    transition: $animation-duration-base max-width ease-in-out,
-        $animation-duration-base padding-left ease-in-out,
-        $animation-duration-base padding-right ease-in-out,
-        $animation-duration-base max-height ease-in-out,
-        $animation-duration-base padding-top ease-in-out,
-        $animation-duration-base padding-bottom ease-in-out;
-}
+@import './styles.scss';
 </style>
