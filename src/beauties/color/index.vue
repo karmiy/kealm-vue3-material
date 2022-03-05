@@ -18,9 +18,9 @@ const onChange = (val: string) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <ConfigItem :class="beautyClassName('color')" :label="label">
+    <config-item :class="beautyClassName('color')" :label="label">
         <el-color-picker :model-value="modelValue" @update:modelValue="onChange" />
-    </ConfigItem>
+    </config-item>
 </template>
 
 <style lang="scss" scoped>

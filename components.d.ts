@@ -18,9 +18,11 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Empty: typeof import('./src/components/empty/index.vue')['default']
+    Help: typeof import('./src/components/help/index.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
-    Placeholder: typeof import('./src/components/placeholder/index.vue')['default']
     Shape: typeof import('./src/components/shape/index.vue')['default']
+    Socket: typeof import('./src/components/socket/index.vue')['default']
+    TemplateParser: typeof import('./src/components/template-parser/index.vue')['default']
   }
 }
 

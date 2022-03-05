@@ -28,7 +28,7 @@ const onChange = (val: number) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <ConfigItem :class="beautyClassName('number')" :label="label">
+    <config-item :class="beautyClassName('number')" :label="label">
         <el-input-number
             :model-value="modelValue"
             :min="min"
@@ -37,7 +37,7 @@ const onChange = (val: number) => emits('update:modelValue', val);
             controls-position="right"
             @update:modelValue="onChange"
         />
-    </ConfigItem>
+    </config-item>
 </template>
 
 <style lang="scss" scoped>

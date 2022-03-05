@@ -38,7 +38,7 @@ const onChange = (val: Value) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <ConfigItem :class="beautyClassName('select')" :label="label">
+    <config-item :class="beautyClassName('select')" :label="label">
         <el-select
             :model-value="modelValue"
             :placeholder="placeholder"
@@ -53,7 +53,7 @@ const onChange = (val: Value) => emits('update:modelValue', val);
             >
             </el-option>
         </el-select>
-    </ConfigItem>
+    </config-item>
 </template>
 
 <style lang="scss" scoped>

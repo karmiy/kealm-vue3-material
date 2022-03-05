@@ -35,6 +35,12 @@ declare namespace EditorNS {
         canvasConfig: CanvasConfig;
     }
 
+    // beauty
+    interface Beauty {
+        type: string;
+        config?: Record<string, SchemaValue>;
+    }
+
     // 物料
     interface Material {
         label: string;
@@ -47,10 +53,7 @@ declare namespace EditorNS {
             children: Array<{
                 prop: string;
                 label: string;
-                beauty: {
-                    type: string;
-                    config?: Record<string, SchemaValue>;
-                };
+                beauty: Beauty;
             }>;
         }>;
     }
@@ -59,6 +62,11 @@ declare namespace EditorNS {
         label: string;
         key: string; // key 对应 @/materials 分组的文件夹名
         icon: string;
+    }
+
+    // controller
+    interface Controller {
+        getInitialTemplate?: () => TemplateItem;
     }
 }
 

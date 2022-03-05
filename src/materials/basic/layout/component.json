@@ -5,7 +5,31 @@
         "list": [
             { "span": 8 },
             { "span": 8 },
-            { "span": 8 }
+            { "span": 8 }   
         ]
-    }
+    },
+    "fields": [
+        {
+            "title": "基础配置",
+            "children": [
+                {
+                    "prop": "list",
+                    "label": "列表",
+                    "beauty": {
+                        "type": "arrayMap",
+                        "config": {
+                            "mapping": {
+                                "span": {
+                                    "type": "number"
+                                },
+                                "offset": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ]
 }

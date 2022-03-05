@@ -1,7 +1,7 @@
 <script lang="tsx">
-import { defineComponent, useSlots } from 'vue';
+import { computed, createCommentVNode, defineComponent, useSlots } from 'vue';
 import { Col, Row, RowAlign, RowJustify } from 'vant';
-import { Placeholder } from '@/components';
+import { TemplateParser } from '@/components';
 import { materialClassName } from '@/utils/material';
 
 interface Props {
@@ -29,8 +29,19 @@ export default defineComponent({
     setup(_props) {
         const props = _props as Props;
 
+        const commentVNode = createCommentVNode();
         const slots = useSlots();
-        const defaultSlots = slots.default?.();
+        // 过滤掉注释节点
+        // const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
+        // console.log(defaultSlots?.[0].props?.templates, props, props.wrap);
+        /* defaultSlots?.forEach(item =>
+            console.log(item, item.type === createCommentVNode().type, item.el),
+        ); */
+        const templates = computed(() => {
+            const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
+            const templateParser = defaultSlots?.[0];
+            return templateParser?.props?.templates as Array<EditorNS.TemplateItem>;
+        });
 
         return () => {
             return (
@@ -42,9 +53,10 @@ export default defineComponent({
                         wrap={props.wrap}
                     >
                         {props.list?.map((item, index) => {
+                            const tpl = templates.value?.[index];
                             return (
                                 <Col key={index} {...item}>
-                                    {defaultSlots?.[index] ?? <Placeholder />}
+                                    <TemplateParser templates={[tpl]} />
                                 </Col>
                             );
                         })}

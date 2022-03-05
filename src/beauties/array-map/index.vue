@@ -1,25 +1,30 @@
 <script setup lang="ts">
+import { PropType } from 'vue';
 import { ConfigItem } from '@/components';
 import { beautyClassName } from '@/utils/beauty';
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
         required: true,
     },
     modelValue: {
-        type: Boolean,
-        default: false,
+        type: Array,
+    },
+    mapping: {
+        type: Object as PropType<Record<string, EditorNS.Beauty>>,
     },
 });
+
 const emits = defineEmits(['update:modelValue']);
 
-const onChange = (val: boolean) => emits('update:modelValue', val);
+const onChange = (val: number) => emits('update:modelValue', val);
+console.log('mapping', props.mapping);
 </script>
 
 <template>
-    <config-item :class="beautyClassName('switch')" :label="label">
-        <el-switch :model-value="modelValue" @update:modelValue="onChange" />
+    <config-item :class="beautyClassName('arrayMap')" :label="label">
+        <div>111</div>
     </config-item>
 </template>
 

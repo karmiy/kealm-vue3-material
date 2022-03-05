@@ -22,6 +22,8 @@ const collapsedIconType = computed(
 const fields = computed(() => {
     const selectedMaterial = selectedTemplate.value?.type;
     if (!selectedMaterial) return [];
+    console.log(selectedTemplate, selectedMaterial, getMaterialByName(selectedMaterial));
+
     return getMaterialByName(selectedMaterial)?.fields ?? [];
 });
 
@@ -48,7 +50,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
                 { label: 'Success', value: 'success' },
             ]"
         /> -->
-        <CollapseTransition>
+        <collapse-transition>
             <div v-show="isBeautyVisible" class="h-full">
                 <div class="wrapper h-full overflow-auto">
                     <div class="title">属性配置</div>
@@ -80,9 +82,9 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
                             <div class="group-body">
                                 <ul>
                                     <li v-for="item in 3" :key="item">
-                                        <ConfigItem label="公告文本">
+                                        <config-item label="公告文本">
                                             <el-input />
-                                        </ConfigItem>
+                                        </config-item>
                                     </li>
                                 </ul>
                             </div>
@@ -90,7 +92,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
                     </ul>
                 </div>
             </div>
-        </CollapseTransition>
+        </collapse-transition>
     </div>
 </template>
 

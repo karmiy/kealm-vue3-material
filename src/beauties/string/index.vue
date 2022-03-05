@@ -22,13 +22,13 @@ const onChange = (val: string) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <ConfigItem :class="beautyClassName('string')" :label="label">
+    <config-item :class="beautyClassName('string')" :label="label">
         <el-input
             :model-value="modelValue"
             :placeholder="placeholder"
             @update:modelValue="onChange"
         />
-    </ConfigItem>
+    </config-item>
 </template>
 
 <style lang="scss" scoped>
