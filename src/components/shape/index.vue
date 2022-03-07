@@ -9,17 +9,17 @@ const { templateId } = defineProps({
         required: true,
     },
     templateId: {
-        type: Number,
+        type: String,
         required: true,
     },
 });
 
 const canvasStore = useCanvasStore();
 const { setSelectedTemplate } = canvasStore;
-const { dragging, selectedTemplate, templateMap } = storeToRefs(canvasStore);
+const { selectedTemplate, templateMap } = storeToRefs(canvasStore);
 
 const onClick = () => {
-    setSelectedTemplate(templateMap.value[templateId]);
+    setSelectedTemplate(templateMap.value[templateId].template);
 };
 </script>
 

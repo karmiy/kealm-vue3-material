@@ -175,6 +175,18 @@ const props = defineProps<{ disabled?: boolean; ... }>();
 
 这里使用方案 2，且集成在 `component.json` 中，考虑到类型维护和转换与 `Canvas` 保持一致
 
+### 模板 id
+
+代码中需要通过模板 id 找到对应的模板项，所以模板 id 唯一是至关重要的，需要考虑：
+
+- 当前环境下生成的模板 id 唯一
+- 当前环境生成的模板 id 不与原有 JSON 内的模板 id 冲突
+
+这里考虑模板 id实现以：`new Date().getTime() + '_' + sequence.next()`，其中 sequence 为一个累加器，这是因为：
+
+- 时间戳可以防止原有 JSON 不与当前环境有重合
+- 同步代码创建模板 id 时时间戳会相同，所以还需要补充一个递增值
+
 ## FAQ
 
 ### stylelint 无效

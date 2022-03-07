@@ -153,10 +153,10 @@ export function useCanvasDrag() {
         const shapeEl = getParentNodeByClass(target, 'shape');
         if (!shapeEl) return;
 
-        const parentId = Number(shapeEl.dataset.id);
+        const parentId = shapeEl.dataset.id;
         if (!parentId) return;
 
-        const socketIndex = Number(target.dataset.index);
+        // const socketIndex = Number(target.dataset.index);
     };
 
     /* 拖拽开始，注册物料 */

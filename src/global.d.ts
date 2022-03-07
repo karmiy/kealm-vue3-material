@@ -8,40 +8,46 @@ declare namespace EditorNS {
     type FlatValue = BasicValue & CustomValue;
     type SchemaValue = FlatValue | Array<FlatValue> | Record<string, FlatValue>;
 
-    // 页面配置
+    /* 页面配置 */
     interface PageConfig {
         width?: number | string;
         height?: number | string;
     }
 
-    // 模板项
+    /* 模板项 */
     interface TemplateConfig {
         [key: string]: SchemaValue;
     }
 
     interface TemplateItem {
-        id: number;
+        id: string;
         type: string;
         config?: TemplateConfig;
         children?: Array<TemplateItem>;
     }
 
-    // 画板配置
+    /* 画板配置 */
     type CanvasConfig = Array<TemplateItem>;
 
-    // JSON 配置
+    /* JSON 配置 */
     interface SchemaConfig {
         pageConfig: PageConfig;
         canvasConfig: CanvasConfig;
     }
 
-    // beauty
+    /* 属性配置器 */
     interface Beauty {
         type: string;
         config?: Record<string, SchemaValue>;
     }
 
-    // 物料
+    interface FieldItem {
+        prop: string;
+        label: string;
+        beauty: Beauty;
+    }
+
+    /* 物料 */
     interface Material {
         label: string;
         icon: string;
@@ -50,11 +56,7 @@ declare namespace EditorNS {
         defaultConfig?: TemplateConfig;
         fields?: Array<{
             title: string;
-            children: Array<{
-                prop: string;
-                label: string;
-                beauty: Beauty;
-            }>;
+            children: Array<FieldItem>;
         }>;
     }
 
@@ -64,9 +66,29 @@ declare namespace EditorNS {
         icon: string;
     }
 
-    // controller
+    /* 物料 controller */
+    // arrayMap
+    interface ArrayMapActionAdd {
+        type: 'add';
+    }
+
+    interface ArrayMapActionRemove {
+        type: 'remove';
+        payload: {
+            removeIndex: number;
+        };
+    }
+    type ArrayMapAction = ArrayMapActionAdd | ArrayMapActionRemove;
+
+    interface ArrayMapPayInfo<T> {
+        selectedTemplate: TemplateItem;
+        propName: string;
+        currentValue: Array<T>;
+        action: ArrayMapAction;
+    }
     interface Controller {
         getInitialTemplate?: () => TemplateItem;
+        arrayMapReducer?: <T>(info: ArrayMapPayInfo<T>) => Array<T>;
     }
 }
 

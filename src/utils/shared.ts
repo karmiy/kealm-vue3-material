@@ -26,27 +26,44 @@ export const createSignClassName = (prefix: string, block: string) =>
 export const createSignComponentName = (prefix: string, block: string) =>
     upperFirst(camelCase(`${prefix} ${block}`));
 
-interface ChildrenWithParentId<T> extends Array<T> {
-    parentId?: number;
+interface ChildrenWithParentId<T, K> extends Array<T> {
+    parentId?: K;
 }
+
+interface DeepEachCallback<T, K> {
+    (item: T, index: number, parentId?: K): void;
+}
+
 /**
  * @description 深度遍历数组
  * @param arr
  * @param callback
  */
-export const deepEach = <T extends { id: number; children?: ChildrenWithParentId<T> }>(
-    arr: ChildrenWithParentId<T>,
-    callback: (item: T, parentId: number, index: number) => void,
-) => {
-    const { parentId = 0 } = arr;
+function deepEach<T extends { id: number; children?: ChildrenWithParentId<T, number> }>(
+    arr: ChildrenWithParentId<T, number>,
+    callback: DeepEachCallback<T, number>,
+): void;
+function deepEach<T extends { id: string; children?: ChildrenWithParentId<T, string> }>(
+    arr: ChildrenWithParentId<T, string>,
+    callback: DeepEachCallback<T, string>,
+): void;
+function deepEach<
+    T extends { id: number | string; children?: ChildrenWithParentId<T, number | string> },
+>(
+    arr: ChildrenWithParentId<T, number | string>,
+    callback: DeepEachCallback<T, number> | DeepEachCallback<T, string>,
+): void {
+    const { parentId } = arr;
 
     arr.forEach((item, index) => {
-        callback(item, parentId, index);
+        (callback as any)(item, index, parentId);
 
         const { children } = item;
         if (!children || !isArray(children)) return;
 
         children.parentId = item.id;
-        deepEach(children, callback);
+        (deepEach as any)(children, callback);
     });
-};
+}
+
+export { deepEach };

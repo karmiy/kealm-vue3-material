@@ -6,27 +6,89 @@
             { "span": 8 },
             { "span": 8 },
             { "span": 8 }   
-        ]
+        ],
+        "wrap": true
     },
     "fields": [
+        {
+            "title": "列表配置",
+            "children": [
+                {
+                    "prop": "list",
+                    "label": "栅格列",
+                    "beauty": {
+                        "type": "arrayMap",
+                        "config": {
+                            "mappings": [
+                                {
+                                    "prop": "span",
+                                    "label": "宽度",
+                                    "beauty": {
+                                        "type": "number",
+                                        "config": {
+                                            "min": 1,
+                                            "max": 24
+                                        }
+                                    }
+                                },
+                                {
+                                    "prop": "offset",
+                                    "label": "偏移",
+                                    "beauty": {
+                                        "type": "number"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
         {
             "title": "基础配置",
             "children": [
                 {
-                    "prop": "list",
-                    "label": "列表",
+                    "prop": "gutter",
+                    "label": "列间距",
                     "beauty": {
-                        "type": "arrayMap",
+                        "type": "number"
+                    }
+                },
+                {
+                    "prop": "justify",
+                    "label": "水平对齐",
+                    "beauty": {
+                        "type": "select",
                         "config": {
-                            "mapping": {
-                                "span": {
-                                    "type": "number"
-                                },
-                                "offset": {
-                                    "type": "number"
-                                }
-                            }
+                            "options": [
+                                { "label": "左对齐", "value": "start" },
+                                { "label": "右对齐", "value": "end" },
+                                { "label": "水平居中", "value": "center" },
+                                { "label": "两端对齐", "value": "space-around" },
+                                { "label": "两端排列", "value": "space-between" }
+                            ]
                         }
+                    }
+                },
+                {
+                    "prop": "align",
+                    "label": "垂直对齐",
+                    "beauty": {
+                        "type": "select",
+                        "config": {
+                            "options": [
+                                { "label": "上对齐", "value": "top" },
+                                { "label": "垂直居中", "value": "center" },
+                                { "label": "下对齐", "value": "bottom" }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "prop": "wrap",
+                    "label": "自动换行",
+                    "beauty": {
+                        "type": "switch"
                     }
                 }
             ]

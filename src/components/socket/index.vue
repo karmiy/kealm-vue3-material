@@ -7,7 +7,7 @@ const { height } = defineProps({
         default: 60,
     },
     templateId: {
-        type: Number,
+        type: String,
         required: true,
     },
 });

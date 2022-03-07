@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { CollapseTransition, ConfigItem, Icon } from '@/components';
 import { useMaterials } from '@/hooks';
@@ -22,7 +22,6 @@ const collapsedIconType = computed(
 const fields = computed(() => {
     const selectedMaterial = selectedTemplate.value?.type;
     if (!selectedMaterial) return [];
-    console.log(selectedTemplate, selectedMaterial, getMaterialByName(selectedMaterial));
 
     return getMaterialByName(selectedMaterial)?.fields ?? [];
 });
@@ -64,6 +63,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
                                     <li v-for="item in group.children" :key="item.prop">
                                         <component
                                             :is="beautyComponentName(item.beauty.type)"
+                                            :prop-name="item.prop"
                                             :model-value="selectedTemplate?.config?.[item.prop]"
                                             :label="item.label"
                                             v-bind="item.beauty.config"

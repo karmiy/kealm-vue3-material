@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { Shape, TemplateParser } from '@/components';
+import { TemplateParser } from '@/components';
 import { useCanvasDrag } from '@/hooks';
 import { useCanvasStore } from '@/store';
 import { CANVAS_TUPLE_TYPE } from '@/utils/constants';
-import { materialComponentName } from '@/utils/material';
 
 /* -------------------- BLOCK: 物料拖拽 => 画布行为交互 -------------------- */
 const canvasStore = useCanvasStore();

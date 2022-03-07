@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { computed, createCommentVNode, defineComponent, useSlots } from 'vue';
+import { computed, createCommentVNode, defineComponent, useSlots, watch, watchEffect } from 'vue';
 import { Col, Row, RowAlign, RowJustify } from 'vant';
 import { TemplateParser } from '@/components';
 import { materialClassName } from '@/utils/material';
@@ -31,15 +31,18 @@ export default defineComponent({
 
         const commentVNode = createCommentVNode();
         const slots = useSlots();
-        // 过滤掉注释节点
+
         // const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
         // console.log(defaultSlots?.[0].props?.templates, props, props.wrap);
         /* defaultSlots?.forEach(item =>
             console.log(item, item.type === createCommentVNode().type, item.el),
         ); */
+
         const templates = computed(() => {
+            // 过滤掉注释节点
             const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
             const templateParser = defaultSlots?.[0];
+
             return templateParser?.props?.templates as Array<EditorNS.TemplateItem>;
         });
 
@@ -54,6 +57,9 @@ export default defineComponent({
                     >
                         {props.list?.map((item, index) => {
                             const tpl = templates.value?.[index];
+
+                            if (!tpl) return null;
+
                             return (
                                 <Col key={index} {...item}>
                                     <TemplateParser templates={[tpl]} />
