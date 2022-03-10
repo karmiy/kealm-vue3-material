@@ -1,0 +1,49 @@
+@import '@/assets/styles/var.scss';
+
+.container {
+    position: relative;
+    height: 100%;
+
+    &:empty {
+        min-height: 50px;
+    }
+
+    background-color: $color-white;
+    background-image: 
+        linear-gradient(
+            45deg, $color-primary-9 25%, transparent 0, transparent 75%, $color-primary-9 0
+        ),
+        linear-gradient(
+            45deg, $color-primary-9 25%, transparent 0, transparent 75%, $color-primary-9 0
+        );
+    background-position: 0 0, 6px 6px;
+    background-size: 12px 12px;
+    box-shadow: 0 0 0 2px $color-white inset;
+
+    /* &::before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 2px solid $color-white;
+        content: '';
+        pointer-events: none;
+    } */
+
+    // 唯一子元素是 help 时，help 撑满
+    ::v-deep(.help:only-child) {
+        height: 100%;
+    }
+}
+
+
+
+// 备选样式效果
+// background-color: $color-primary-9;
+// border: 1px dashed $color-primary-7;
+
+// background-color: $color-primary-9;
+// border: 1px solid $color-white;
+
+// background-color: $background-color-light;

@@ -3,7 +3,7 @@ export { default as Icon } from './icon/index.vue';
 export { default as Canvas } from './canvas/index.vue';
 export { default as ConfigItem } from './config-item/index.vue';
 export { default as Empty } from './empty/index.vue';
-export { default as Socket } from './socket/index.vue';
+export { default as Container } from './container/index.vue';
 export { default as Shape } from './shape/index.vue';
 export { default as Help } from './help/index.vue';
 export { default as TemplateParser } from './template-parser/index.vue';

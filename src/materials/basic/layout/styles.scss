@@ -1,5 +1,8 @@
 @import '@/assets/styles/var.scss';
 @import '@/assets/styles/mixins.scss';
 
-// @include material(layout) {
-// }
+@include material(layout) {
+    .van-col {
+        flex-shrink: 1;
+    }
+}

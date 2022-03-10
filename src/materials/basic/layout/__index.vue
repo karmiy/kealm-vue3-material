@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Col as VanCol, Row as VanRow, RowAlign, RowJustify } from 'vant';
-import { Socket, TemplateParser } from '@/components';
+import { TemplateParser } from '@/components';
 import { materialClassName } from '@/utils/material';
 
 defineProps<{
@@ -26,7 +26,7 @@ defineProps<{
                 :offset="item.offset"
             >
                 <template-parser v-if="item.slot" :templates="[item.slot]" />
-                <socket v-else :path="`[list][${index}][slot]`" />
+                <!-- <socket v-else :path="`[list][${index}][slot]`" /> -->
             </van-col>
         </van-row>
     </div>

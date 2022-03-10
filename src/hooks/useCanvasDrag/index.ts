@@ -3,169 +3,298 @@ import { storeToRefs } from 'pinia';
 import { useCanvasStore } from '@/store';
 import { generateTplSeries } from '@/utils/canvas';
 import { CANVAS_TUPLE_TYPE } from '@/utils/constants';
-import { getParentNodeByClass } from '@/utils/dom';
+import { getParentNodeByCondition } from '@/utils/dom';
 
+// slot 有值不显示元素自身
+// container => slot => material 时拖拽到 material 上应该找到最近的 container
 export function useCanvasDrag() {
     const canvasStore = useCanvasStore();
     const {
-        getTemplatesByParentId,
-        isRootTemplates,
+        getTemplateById,
+        getParentTemplateById,
+        getNearestContainerChain,
         setWaitToInsert,
         registryDragMaterial,
         releaseDragMaterial,
     } = canvasStore;
-    const { templates, dragMaterial, dragging } = storeToRefs(canvasStore);
+    const { templates, dragMaterial, dragging, templateMap } = storeToRefs(canvasStore);
     const THROTTLE_DELAY = 10;
 
+    /**
+     * @description 获取：顶层模板列表、当前准备放置层级的模板列表
+     * @returns
+     */
     const getTemplates = () => {
         const rootTemplates = templates.value;
 
         if (!dragMaterial.value) return { rootTemplates };
 
-        const { waitToInsertParentId } = dragMaterial.value;
-        const curTemplates = getTemplatesByParentId(waitToInsertParentId);
+        const { waitToInsertContainerId } = dragMaterial.value;
+        const curTemplates = getTemplateById(waitToInsertContainerId)?.children;
+        // console.log(waitToInsertContainerId, curTemplates);
 
         return { rootTemplates, curTemplates };
     };
 
+    /**
+     * @description 创建一个 help 模板
+     * @returns
+     */
     const createHelp = () => {
         return { type: CANVAS_TUPLE_TYPE.Help, id: generateTplSeries() };
     };
 
+    /**
+     * @description 获取当前 templates 中 help 模板的信息
+     * @returns
+     */
     const getHelpInfo = () => {
         const { curTemplates } = getTemplates();
 
         if (!dragMaterial.value || !curTemplates)
-            return { hasHelp: false, helpTemplate: createHelp() };
+            return { hasHelp: false, helpIndex: -1, helpTemplate: createHelp() };
 
-        const { waitToInsertIndex } = dragMaterial.value;
-        const hasHelp = waitToInsertIndex !== -1;
-        const helpTemplate = hasHelp ? curTemplates[waitToInsertIndex] : createHelp();
+        // 注：
+        // 虽然循环性能低一点，但是考虑到同层级数组项不会很多
+        // 且用 waitToInsertIndex 存在副作用（可能 curTemplates 在其他代码中操作了，如把 help 删了），取到的项会不准
+        const helpIndex = curTemplates.findIndex(item => item.type === CANVAS_TUPLE_TYPE.Help);
+        const hasHelp = helpIndex !== -1;
+        const helpTemplate = hasHelp ? curTemplates[helpIndex] : createHelp();
 
         return {
             hasHelp,
+            helpIndex,
             helpTemplate,
         };
     };
 
-    /* 当前拖拽到画布上 */
-    const runInsertToPage = () => {
-        const { rootTemplates, curTemplates } = getTemplates();
-        if (!dragMaterial.value || !curTemplates) return;
+    /**
+     * @description 移除当前 help
+     * @returns
+     */
+    const removeHelp = () => {
+        const { curTemplates } = getTemplates();
+        if (!curTemplates) return;
 
-        const { waitToInsertParentId } = dragMaterial.value;
-        let { waitToInsertIndex } = dragMaterial.value;
-        const { hasHelp, helpTemplate } = getHelpInfo();
+        const { hasHelp, helpIndex } = getHelpInfo();
 
-        // 如果当前 help 也顶层在最后，就不需要操作了
-        if (
-            hasHelp &&
-            isRootTemplates(waitToInsertParentId) &&
-            waitToInsertIndex === curTemplates.length - 1
-        )
-            return;
-        // 本来有 help 先移除
-        hasHelp && curTemplates.splice(waitToInsertIndex, 1);
-        // 插入到顶层末尾
-        waitToInsertIndex = rootTemplates.push(helpTemplate) - 1;
-        setWaitToInsert(waitToInsertIndex);
+        hasHelp && curTemplates.splice(helpIndex, 1);
     };
 
-    /* 当前拖拽到组件上 */
-    const runInsertToMaterial = (e: DragEvent) => {
-        const { rootTemplates, curTemplates } = getTemplates();
+    /**
+     * @description 放置 help 块
+     * @param templates
+     * @param waitToInsertIndex
+     */
+    const updateOrInsertHelp = (
+        templates: Array<EditorNS.TemplateItem>,
+        waitToInsertIndex: number,
+        waitToInsertContainerId?: string,
+    ) => {
+        if (templates[waitToInsertIndex]?.type === CANVAS_TUPLE_TYPE.Help) return;
+
+        const { helpTemplate } = getHelpInfo();
+
+        // 更新 help 位置
+        setWaitToInsert(waitToInsertContainerId);
+        templates.splice(waitToInsertIndex, 0, helpTemplate);
+    };
+
+    /**
+     * @description 边缘判断
+     * @param e
+     * @returns
+     */
+    const isBounding = (delta: number) => {
+        return delta > 0 && delta < 4;
+    };
+
+    const getBounding = (el: HTMLElement, e: DragEvent) => {
+        const mouseY = e.clientY;
+        const { top: boundingTop, bottom: boundingBottom } = el.getBoundingClientRect();
+        const deltaTop = mouseY - boundingTop;
+        const deltaBottom = boundingBottom - mouseY;
+        const inUpBounding = isBounding(deltaTop);
+        const inDownBounding = isBounding(deltaBottom);
+
+        return { inUpBounding, inDownBounding };
+    };
+
+    /**
+     * @description 当前拖拽到容器上
+     * @returns
+     */
+    const runInsertToContainer = (e: DragEvent) => {
+        const target = e.target as HTMLElement | null;
+        const targetContainerId = target?.dataset.id;
+        if (!target || !targetContainerId) return;
+
+        // 触碰容器边缘不响应，防止与 runInsertToBounding 冲突闪烁
+        const { inUpBounding, inDownBounding } = getBounding(target, e);
+        if (inUpBounding || inDownBounding) return;
+
+        const { curTemplates } = getTemplates();
         if (!dragMaterial.value || !curTemplates) return;
 
-        const { waitToInsertParentId } = dragMaterial.value;
-        let { waitToInsertIndex } = dragMaterial.value;
-        const { hasHelp, helpTemplate } = getHelpInfo();
+        const { waitToInsertContainerId } = dragMaterial.value;
+        const { hasHelp, helpIndex, helpTemplate } = getHelpInfo();
+
+        // 如果当前 help 已经在准备放入的 container 中，且排在最后，就不需要操作了
+        if (
+            hasHelp &&
+            waitToInsertContainerId === targetContainerId &&
+            helpIndex === curTemplates.length - 1
+        )
+            return;
+
+        // 本来有 help 先移除
+        hasHelp && curTemplates.splice(helpIndex, 1);
+
+        // 插入到目标容器末尾
+        const targetTemplates = getTemplateById(targetContainerId)?.children;
+        if (!targetTemplates) return;
+
+        targetTemplates.push(helpTemplate);
+
+        setWaitToInsert(targetContainerId);
+    };
+
+    /**
+     * @description 当前拖拽到组件上
+     * @param e
+     * @returns
+     */
+    const runInsertToMaterial = (e: DragEvent) => {
+        if (!dragMaterial.value) return;
 
         const target = e.target as HTMLElement | null;
+        if (!target) return;
 
-        const [y, h, curComponentIndex] = [
+        const [materialId, y, h, curComponentIndex] = [
+            target?.dataset.id,
             e.offsetY,
-            Number(target?.offsetHeight ?? 0),
-            Number(target?.dataset.index ?? 0),
+            Number(target.offsetHeight ?? 0),
+            Number(target.dataset.index ?? 0),
         ];
+
+        if (!materialId) return;
+
+        // 找到此物料所处的容器
+        const targetContainer = getParentTemplateById(materialId);
+
+        // 父级不是容器过掉
+        if (!targetContainer || targetContainer?.type !== CANVAS_TUPLE_TYPE.Container) return;
+
+        const targetContainerId = targetContainer.id;
+        const targetTemplates = getTemplateById(targetContainerId)?.children;
+        if (!targetTemplates) return;
+
+        const { waitToInsertContainerId } = dragMaterial.value;
+        const { hasHelp, helpIndex } = getHelpInfo();
+        let waitToInsertIndex = helpIndex;
+
         // 鼠标位置是否在组件中线之上
         const isUpDirection = y < h / 2;
-
-        // console.log(isUpDirection, hasHelp);
 
         if (!hasHelp) {
             waitToInsertIndex = isUpDirection ? curComponentIndex : curComponentIndex + 1;
         } else {
-            // 不需要变动的场景：要移动到的位置刚好也是现在 help 的位置
-            // 组件中线之上：0 1 2? [3] 4
-            if (
-                isRootTemplates(waitToInsertParentId) &&
-                isUpDirection &&
-                waitToInsertIndex < curComponentIndex &&
-                curComponentIndex - 1 === waitToInsertIndex
-            )
-                return;
+            if (waitToInsertContainerId === targetContainerId) {
+                // 当前鼠标触碰的元素位置：[]
+                // 当前 help 元素位置 ?
+                // 不需要变动的场景：要移动到的位置刚好也是现在 help 的位置
+                // 组件中线之上：0 1 2? [3] 4
+                if (isUpDirection && curComponentIndex - 1 === waitToInsertIndex) return;
 
-            // 组件中线之下：0 1 2 [3] 4?
-            if (
-                isRootTemplates(waitToInsertParentId) &&
-                !isUpDirection &&
-                waitToInsertIndex >= curComponentIndex &&
-                curComponentIndex + 1 === waitToInsertIndex
-            )
-                return;
+                // 组件中线之下：0 1 2 [3] 4?
+                if (!isUpDirection && curComponentIndex + 1 === waitToInsertIndex) return;
 
-            // 移除当前 help
-            curTemplates.splice(waitToInsertIndex, 1);
-            if (isUpDirection) {
-                if (
-                    isRootTemplates(waitToInsertParentId) &&
-                    waitToInsertIndex < curComponentIndex
-                ) {
-                    // 场景 0 1? 2 [3] 4
-                    waitToInsertIndex = curComponentIndex - 1;
+                // 移除当前 help
+                removeHelp();
+
+                if (isUpDirection) {
+                    if (waitToInsertIndex < curComponentIndex) {
+                        // 场景 0 1? 2 [3] 4
+                        waitToInsertIndex = curComponentIndex - 1;
+                    } else {
+                        // 场景 0 1 2 [3] 4?
+                        waitToInsertIndex = curComponentIndex;
+                    }
                 } else {
-                    // 场景 0 1 2 [3] 4?
-                    waitToInsertIndex = curComponentIndex;
+                    if (waitToInsertIndex < curComponentIndex) {
+                        // 场景 0 1 2? [3] 4
+                        waitToInsertIndex = curComponentIndex;
+                    } else {
+                        // 场景 0 1 2 [3] 4 5?
+                        waitToInsertIndex = curComponentIndex + 1;
+                    }
                 }
             } else {
-                if (
-                    isRootTemplates(waitToInsertParentId) &&
-                    waitToInsertIndex < curComponentIndex
-                ) {
-                    // 场景 0 1 2? [3] 4
-                    waitToInsertIndex = curComponentIndex;
-                } else {
-                    // 场景 0 1 2 [3] 4 5?
-                    waitToInsertIndex = curComponentIndex + 1;
-                }
+                // 插槽不同直接移除原 help
+                removeHelp();
+
+                waitToInsertIndex = isUpDirection ? curComponentIndex : curComponentIndex + 1;
             }
         }
         // 更新 help 位置
-        setWaitToInsert(waitToInsertIndex);
-        rootTemplates.splice(waitToInsertIndex, 0, helpTemplate);
+        updateOrInsertHelp(targetTemplates, waitToInsertIndex, targetContainerId);
     };
 
-    /* 当前拖拽到插槽上 */
-    const runInsertToSocket = (e: DragEvent) => {
+    /**
+     * @description 当前拖拽边缘
+     * @param e
+     * @returns
+     */
+    const runInsertToBounding = (e: DragEvent) => {
         const target = e.target as HTMLElement | null;
         if (!target) return;
 
-        const shapeEl = getParentNodeByClass(target, 'shape');
-        if (!shapeEl) return;
+        const containerEl = getParentNodeByCondition(
+            target,
+            el => el.dataset.type === CANVAS_TUPLE_TYPE.Container,
+        );
+        const containerId = containerEl?.dataset.id;
+        if (!containerEl || !containerId) return;
 
-        const parentId = shapeEl.dataset.id;
-        if (!parentId) return;
+        // 是否达到了容器边缘
+        const { inUpBounding, inDownBounding } = getBounding(containerEl, e);
 
-        // const socketIndex = Number(target.dataset.index);
+        if (!inUpBounding && !inDownBounding) return;
+
+        // 找到父层容器
+        const outerContainer = getNearestContainerChain(containerId);
+        const targetTemplates = outerContainer?.template?.children;
+        const targetContainerId = outerContainer?.template.id;
+
+        if (!targetTemplates || !targetContainerId) return;
+
+        // 移除原 help
+        removeHelp();
+
+        // 找到当前容器隶属于父层容器的哪个位置
+        const curComponentIndex = targetTemplates.findIndex(
+            item => item.id === outerContainer.next?.template.id,
+        );
+        if (curComponentIndex === -1) return;
+
+        const waitToInsertIndex = inUpBounding ? curComponentIndex : curComponentIndex + 1;
+
+        // 更新 help 位置
+        updateOrInsertHelp(targetTemplates, waitToInsertIndex, targetContainerId);
     };
 
-    /* 拖拽开始，注册物料 */
+    /**
+     * @description 拖拽开始，注册物料
+     * @param name
+     */
     const onDragStart = (name: string) => {
         dragging.value = true;
         registryDragMaterial(name);
     };
 
-    /* 拖拽中，调整放置区域辅助块的位置 */
+    /**
+     * @description 拖拽中，调整放置区域辅助块的位置
+     */
     const onDragOver = useThrottleFn(
         (e: DragEvent) => {
             const target = e.target as HTMLElement | null;
@@ -173,51 +302,52 @@ export function useCanvasDrag() {
             const type = target?.dataset.type;
 
             switch (type) {
-                case CANVAS_TUPLE_TYPE.Page:
-                    runInsertToPage();
+                case CANVAS_TUPLE_TYPE.Container:
+                    runInsertToContainer(e);
                     break;
                 case CANVAS_TUPLE_TYPE.Material:
                     runInsertToMaterial(e);
                     break;
-                case CANVAS_TUPLE_TYPE.Socket:
-                    runInsertToSocket(e);
-                    break;
 
-                default:
+                default: {
+                    runInsertToBounding(e);
                     break;
+                }
             }
         },
         THROTTLE_DELAY,
         false,
     );
 
-    /* 拖拽放手时（在画布内才会有效触发）放置组件 */
+    /**
+     * @description 拖拽放手时（在画布内才会有效触发）放置组件
+     * @returns
+     */
     const onDrop = () => {
         if (!dragMaterial.value) return;
 
-        const { waitToInsertParentId, waitToInsertIndex, template } = dragMaterial.value;
-        if (waitToInsertIndex === -1) return;
+        const { waitToInsertContainerId, template } = dragMaterial.value;
 
-        const curTemplates = getTemplatesByParentId(waitToInsertParentId);
+        const targetTemplates = getTemplateById(waitToInsertContainerId)?.children;
 
-        if (!curTemplates) return;
+        if (!targetTemplates) return;
 
-        curTemplates.splice(waitToInsertIndex, 1, template);
-        setWaitToInsert(-1, waitToInsertParentId);
+        const { hasHelp, helpIndex } = getHelpInfo();
+
+        if (!hasHelp) return;
+        targetTemplates.splice(helpIndex, 1, template);
     };
 
-    /* 拖拽结束，顺序：drop => end */
+    /**
+     * @description 拖拽结束，顺序：drop => end
+     * @returns
+     */
     const onDragEnd = () => {
         dragging.value = false;
         if (!dragMaterial.value) return;
 
         // 结束拖拽时，如果鼠标在画布外，需要移除辅助块
-        const { waitToInsertParentId, waitToInsertIndex } = dragMaterial.value;
-
-        if (waitToInsertIndex !== -1) {
-            const curTemplates = getTemplatesByParentId(waitToInsertParentId);
-            curTemplates?.splice(waitToInsertIndex, 1);
-        }
+        removeHelp();
 
         releaseDragMaterial();
     };

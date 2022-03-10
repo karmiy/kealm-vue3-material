@@ -1,6 +1,13 @@
+import { generateTplSeries } from './canvas';
+
 export enum CANVAS_TUPLE_TYPE {
-    Page = 'page',
+    Container = 'container',
     Material = 'material',
     Help = 'help',
-    Socket = 'socket',
 }
+
+export const ROOT_CONTAINER = {
+    id: generateTplSeries(),
+    pId: '-1',
+    index: -1,
+};

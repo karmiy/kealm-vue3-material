@@ -12,7 +12,7 @@ export function getInitialTemplate() {
         children: list.map(() => {
             return {
                 id: generateTplSeries(),
-                type: CANVAS_TUPLE_TYPE.Socket,
+                type: CANVAS_TUPLE_TYPE.Container,
                 children: [],
             };
         }),
@@ -33,7 +33,7 @@ export function arrayMapReducer(info: EditorNS.ArrayMapPayInfo<any>) {
                 selectedTemplate.children = selectedTemplate.children ?? [];
                 selectedTemplate.children.push({
                     id: generateTplSeries(),
-                    type: CANVAS_TUPLE_TYPE.Socket,
+                    type: CANVAS_TUPLE_TYPE.Container,
                     children: [],
                 });
 

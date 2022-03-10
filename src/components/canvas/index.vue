@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { TemplateParser } from '@/components';
 import { useCanvasDrag } from '@/hooks';
 import { useCanvasStore } from '@/store';
-import { CANVAS_TUPLE_TYPE } from '@/utils/constants';
+import { CANVAS_TUPLE_TYPE, ROOT_CONTAINER } from '@/utils/constants';
 
 /* -------------------- BLOCK: 物料拖拽 => 画布行为交互 -------------------- */
 const canvasStore = useCanvasStore();
@@ -15,7 +15,8 @@ const { onDragOver, onDrop } = useCanvasDrag();
 <template>
     <div
         class="canvas cursor-auto"
-        :data-type="CANVAS_TUPLE_TYPE.Page"
+        :data-type="CANVAS_TUPLE_TYPE.Container"
+        :data-id="ROOT_CONTAINER.id"
         @mousedown.stop
         @mousemove.stop
         @mouseup.stop

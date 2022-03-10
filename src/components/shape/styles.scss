@@ -32,7 +32,7 @@
     }
 
     &.is-hover {
-        .shape-dashed {
+        & > .shape-dashed {
             display: block;
         }
     }

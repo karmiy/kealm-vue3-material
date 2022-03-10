@@ -7,6 +7,7 @@ declare module 'vue' {
     Canvas: typeof import('./src/components/canvas/index.vue')['default']
     CollapseTransition: typeof import('./src/components/collapse-transition/index.vue')['default']
     ConfigItem: typeof import('./src/components/config-item/index.vue')['default']
+    Container: typeof import('./src/components/container/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElColorPicker: typeof import('element-plus/es')['ElColorPicker']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
@@ -24,7 +25,6 @@ declare module 'vue' {
     Help: typeof import('./src/components/help/index.vue')['default']
     Icon: typeof import('./src/components/icon/index.vue')['default']
     Shape: typeof import('./src/components/shape/index.vue')['default']
-    Socket: typeof import('./src/components/socket/index.vue')['default']
     TemplateParser: typeof import('./src/components/template-parser/index.vue')['default']
   }
 }

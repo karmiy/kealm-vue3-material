@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { CANVAS_TUPLE_TYPE } from '@/utils/constants';
 
-const { height } = defineProps({
-    height: {
+const { minHeight } = defineProps({
+    minHeight: {
         type: Number,
-        default: 60,
     },
     templateId: {
         type: String,
@@ -15,11 +14,13 @@ const { height } = defineProps({
 
 <template>
     <div
-        class="socket pointer-events-auto"
-        :style="{ height: `${height}px` }"
+        class="container pointer-events-auto"
+        :style="{ minHeight: `${minHeight}px` }"
         :data-id="templateId"
-        :data-type="CANVAS_TUPLE_TYPE.Socket"
-    />
+        :data-type="CANVAS_TUPLE_TYPE.Container"
+    >
+        <slot />
+    </div>
 </template>
 
 <style lang="scss" scoped>

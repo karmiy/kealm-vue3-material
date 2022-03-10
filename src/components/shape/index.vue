@@ -15,11 +15,14 @@ const { templateId } = defineProps({
 });
 
 const canvasStore = useCanvasStore();
-const { setSelectedTemplate } = canvasStore;
-const { selectedTemplate, templateMap } = storeToRefs(canvasStore);
+const { setSelectedTemplate, getTemplateById } = canvasStore;
+const { selectedTemplate } = storeToRefs(canvasStore);
 
 const onClick = () => {
-    setSelectedTemplate(templateMap.value[templateId].template);
+    const template = getTemplateById(templateId);
+    if (!template) return;
+
+    setSelectedTemplate(template);
 };
 </script>
 
