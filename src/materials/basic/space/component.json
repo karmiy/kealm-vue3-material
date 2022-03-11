@@ -1,0 +1,28 @@
+{
+    "label": "间距",
+    "icon": "space",
+    "defaultConfig": {
+        "height": 16
+    },
+    "fields": [
+        {
+            "title": "基础配置",
+            "children": [
+                {
+                    "prop": "height",
+                    "label": "间距大小",
+                    "beauty": {
+                        "type": "number"
+                    }
+                },
+                {
+                    "prop": "color",
+                    "label": "背景色",
+                    "beauty": {
+                        "type": "color"
+                    }
+                }
+            ]
+        }
+    ]
+}

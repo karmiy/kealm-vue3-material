@@ -26,6 +26,11 @@ JSON 信息 => 组件解析 JSON => UI 视图
 
 ### 输出 JSON 结构
 
+JSON 划分为：
+
+- 页面配置 pageConfig
+- 画布配置 canvas
+
 ```json
 {
     "pageConfig": {},
@@ -44,21 +49,30 @@ JSON 信息 => 组件解析 JSON => UI 视图
 
 ### 物料描述
 
+物料组件放置在 `src/materials` 下，如 `Button` 按钮在 `src/materials/basic/button`，其中 `basic` 作为物料的 **group**（这也是为什么，物料 JSON 中没有分组字段）
+
+每个物料中包含 `component.json` 文件用于描述物料的具体信息
+
+```ts
+- materials
+	- basic
+        - button
+            - component.json // 物料的 JSON 配置
+```
+
 ```json
 {
     "label": "按钮",
-    "icon": "save",
+    "icon": "btn",
     // ...
 }
 ```
 
-物料组件放置在 `src/materials` 下，如 `Button` 按钮在 `src/materials/basic/button`，其中 `basic` 作为物料的 **group**（这也是为什么，物料 JSON 中没有分组字段）
-
-```ts
-// TODO: 物料属性描述
-```
-
 ### 物料属性
+
+物料的属性，我们将其成为**Beauty**
+
+在组件 `component.json` 的 fields 属性字段中与组件 `prop` 挂钩
 
 ```json
 {
@@ -105,7 +119,7 @@ JSON 信息 => 组件解析 JSON => UI 视图
 }
 ```
 
-属性组件 type：
+Beauty 组件 type：
 
 - string：文本组件
 - number：数字组件
@@ -123,7 +137,68 @@ JSON 信息 => 组件解析 JSON => UI 视图
 
 - Layout 布局物料，列表属性配置在 `list` 字段，但 `list` 更新后却需要驱动 `children` 数量的更新
 
-这种**一对多**的联动关系是无法利用简单的数据绑定实现的
+这种**一对多**的联动关系是无法利用简单的数据绑定实现的，为了适应更多场景，物料允许存在一个 `controller.ts` 文件用于初始化物料模板、处理 Beauty 响应等
+
+```typescript
+- button
+	- index.vue
+	- styles.scss
+	- component.json
+	- controller.ts // 物料控制
+```
+
+controller 允许 export 抛出一些约定的函数，用于处理不同时机的交互行为：
+
+- getInitialTemplate：表示如何获取初始化模板数组
+- arrayMapReducer：表示如何处理 `Beauty.ArrayMap` 在 `add`、`remove` 等行为时的数据
+
+```ts
+// controller.ts
+export function getInitialTemplate() {
+    const { list } = componentJSON.defaultConfig;
+    
+    return {
+        id: generateTplSeries(),
+        type: 'layout',
+        config: cloneDeep(componentJSON.defaultConfig),
+        children: list.map(() => {
+            return {
+                id: generateTplSeries(),
+                type: CANVAS_TUPLE_TYPE.Container,
+                children: [],
+            };
+        }),
+    };
+}
+```
+
+### 画布模板数据交互
+
+物料的数据存储在全局 Hook `useCanvasStore` 中的 `templates` 字段
+
+我们约定有 2 种方式可以操作这个数据源：
+
+- 当操作的行为需要被记录时（记录的数据需要用于撤销等行为），应直接操作 templates 原数组
+
+  ```ts
+  const canvasStore = useCanvasStore();
+  const { templates } = storeToRefs(canvasStore);
+  
+  // 直接操作原数组
+  templates.value[0] = {};
+  ```
+
+- 当操作的行为不需要被记录时（移除 help 等行为），应赋值 templates 数组
+
+  ```ts
+  const canvasStore = useCanvasStore();
+  const { templates } = storeToRefs(canvasStore);
+  
+  // 赋值新数组
+  templates.value = [];
+  ```
+
+这个约定是为了**区分交互行为，记录有效操作**
 
 ## 实现
 
