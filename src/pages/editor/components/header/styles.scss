@@ -26,6 +26,10 @@
         li {
             margin-right: 30px;
             cursor: pointer;
+
+            &.is-disabled {
+                cursor: not-allowed;
+            }
         }
     }
 }

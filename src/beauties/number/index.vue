@@ -7,12 +7,14 @@ defineProps({
         type: String,
         required: true,
     },
-    modelValue: {
-        type: Number,
-    },
     min: {
         type: Number,
         default: 0,
+    },
+    modelValue: {
+        type: Number,
+        // 依赖 min
+        default: (props: { min: number }) => props.min ?? 0,
     },
     max: {
         type: Number,
@@ -24,7 +26,11 @@ defineProps({
 });
 const emits = defineEmits(['update:modelValue']);
 
-const onChange = (val: number) => emits('update:modelValue', val);
+const onChange = (val: number) => {
+    console.log('...', val);
+
+    emits('update:modelValue', val);
+};
 </script>
 
 <template>

@@ -17,8 +17,8 @@ export function useCanvasDrag() {
         registryDragMaterial,
         releaseDragMaterial,
     } = canvasStore;
-    const { templates, dragMaterial, dragging, templateMap } = storeToRefs(canvasStore);
-    const THROTTLE_DELAY = 10;
+    const { templates, dragMaterial, dragging } = storeToRefs(canvasStore);
+    const THROTTLE_DELAY = 14;
 
     /**
      * @description 获取：顶层模板列表、当前准备放置层级的模板列表
@@ -347,7 +347,14 @@ export function useCanvasDrag() {
         if (!dragMaterial.value) return;
 
         // 结束拖拽时，如果鼠标在画布外，需要移除辅助块
-        removeHelp();
+        const { hasHelp, helpIndex } = getHelpInfo();
+        if (hasHelp) {
+            const { curTemplates } = getTemplates();
+
+            hasHelp && curTemplates?.splice(helpIndex, 1);
+            // 注：按照约定这个操作不作 storage 记录，需更新 templates 引用
+            templates.value = [...templates.value];
+        }
 
         releaseDragMaterial();
     };

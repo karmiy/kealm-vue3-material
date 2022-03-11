@@ -31,7 +31,7 @@ export const useCanvasStore = defineStore('Canvas', {
         templates: [] as Array<EditorNS.TemplateItem>, // 当前画布模-板
         selectedTemplate: null as EditorNS.TemplateItem | null,
         /* 组件属性 */
-        isBeautyVisible: false,
+        beautyVisible: false,
     }),
     getters: {
         /* { id: [tpl] } 映射模板数据 */
@@ -103,11 +103,11 @@ export const useCanvasStore = defineStore('Canvas', {
         setSelectedTemplate(item?: EditorNS.TemplateItem) {
             if (!item) {
                 this.selectedTemplate = null;
-                this.isBeautyVisible = false;
+                this.beautyVisible = false;
                 return;
             }
             this.selectedTemplate = item;
-            this.isBeautyVisible = true;
+            this.beautyVisible = true;
         },
         /**
          * @description 根据 id 找到父级模板
@@ -174,6 +174,15 @@ export const useCanvasStore = defineStore('Canvas', {
                 template => template.type === CANVAS_TUPLE_TYPE.Container,
                 self,
             );
+        },
+        /**
+         * @description 清空画布
+         */
+        clearCanvas() {
+            this.setSelectedTemplate();
+            // 配合撤销，不赋值新数组
+            // this.templates = [];
+            this.templates.length = 0;
         },
         /**
          * @description 判断是否是顶层模板列表

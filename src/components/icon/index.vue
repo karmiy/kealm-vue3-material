@@ -1,5 +1,5 @@
 <template>
-    <svg class="icon" :style="style" aria-hidden="true">
+    <svg :class="{ icon: true, 'is-disabled': disabled }" :style="style" aria-hidden="true">
         <use :xlink:href="xlink"></use>
     </svg>
 </template>
@@ -10,6 +10,7 @@ const props = defineProps<{
     type: string;
     size?: number;
     color?: string;
+    disabled?: boolean;
 }>();
 
 const xlink = computed(() => {

@@ -7,16 +7,14 @@ import { useCanvasStore } from '@/store';
 import { beautyComponentName } from '@/utils/beauty';
 const canvasStore = useCanvasStore();
 const { getMaterialByName } = useMaterials();
-const { isBeautyVisible, selectedTemplate } = storeToRefs(canvasStore);
+const { beautyVisible, selectedTemplate } = storeToRefs(canvasStore);
 
 /* -------------------- BLOCK: 折叠弹框 -------------------- */
 const toggleCollapsed = () => {
-    isBeautyVisible.value = !isBeautyVisible.value;
+    beautyVisible.value = !beautyVisible.value;
 };
 
-const collapsedIconType = computed(
-    () => `double-arrow-${isBeautyVisible.value ? 'right' : 'left'}`,
-);
+const collapsedIconType = computed(() => `double-arrow-${beautyVisible.value ? 'right' : 'left'}`);
 
 /* -------------------- BLOCK: 属性列表 -------------------- */
 const fields = computed(() => {
@@ -33,6 +31,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
     if (!selectedTemplate.value.config) selectedTemplate.value.config = {};
 
     if (value === '') return delete selectedTemplate.value.config![prop];
+
     selectedTemplate.value.config![prop] = value;
 };
 </script>
@@ -50,7 +49,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
             ]"
         /> -->
         <collapse-transition>
-            <div v-show="isBeautyVisible" class="h-full">
+            <div v-show="beautyVisible" class="h-full">
                 <div class="wrapper h-full overflow-auto">
                     <div class="title">属性配置</div>
                     <ul>

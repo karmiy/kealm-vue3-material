@@ -32,20 +32,6 @@ export default defineComponent({
         const commentVNode = createCommentVNode();
         const slots = useSlots();
 
-        // const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
-        // console.log(defaultSlots?.[0].props?.templates, props, props.wrap);
-        /* defaultSlots?.forEach(item =>
-            console.log(item, item.type === createCommentVNode().type, item.el),
-        ); */
-
-        const templates = computed(() => {
-            // 过滤掉注释节点
-            const defaultSlots = slots.default?.().filter(item => item.type !== commentVNode.type);
-            const templateParser = defaultSlots?.[0];
-
-            return templateParser?.props?.templates as Array<EditorNS.TemplateItem>;
-        });
-
         return () => {
             return (
                 <div class={materialClassName('layout')}>
@@ -55,17 +41,19 @@ export default defineComponent({
                         align={props.align}
                         wrap={props.wrap}
                     >
-                        {props.list?.map((item, index) => {
-                            const tpl = templates.value?.[index];
+                        {/* MARK: slots 内容响应式，必须放 return 这，独立到外部无效 */}
+                        {slots
+                            .default?.()
+                            .filter(item => item.type !== commentVNode.type)?.[0]
+                            ?.props?.templates.map((tpl: EditorNS.TemplateItem, index: number) => {
+                                const listItem = props.list?.[index];
 
-                            if (!tpl) return null;
-
-                            return (
-                                <Col key={index} {...item}>
-                                    <TemplateParser templates={[tpl]} />
-                                </Col>
-                            );
-                        })}
+                                return (
+                                    <Col key={index} {...listItem}>
+                                        <TemplateParser templates={[tpl]} />
+                                    </Col>
+                                );
+                            })}
                     </Row>
                 </div>
             );

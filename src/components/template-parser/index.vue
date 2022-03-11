@@ -26,9 +26,14 @@ defineProps({
         <shape v-else :index="index" :template-id="item.id">
             <!-- <template-parser v-if="item.children" :templates="item.children" /> -->
             <component :is="materialComponentName(item.type)" v-bind="item.config">
-                <template-parser v-if="item.children" :templates="item.children" />
+                <template-parser
+                    v-if="item.children"
+                    :key="Date.now()"
+                    :templates="item.children"
+                />
             </component>
         </shape>
+        <!-- <template v-if="item.type === 'layout'">{{ item.children }}</template> -->
     </template>
 </template>
 
