@@ -27,8 +27,6 @@ defineProps({
 const emits = defineEmits(['update:modelValue']);
 
 const onChange = (val: number) => {
-    console.log('...', val);
-
     emits('update:modelValue', val);
 };
 </script>
