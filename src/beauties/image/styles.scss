@@ -1,0 +1,19 @@
+@import '@/assets/styles/var.scss';
+@import '@/assets/styles/mixins.scss';
+
+@include beauty(image) {
+    .image-upload {
+        display: flex;
+        width: 148px;
+        overflow: hidden;
+
+        ::v-deep(.el-upload-list__item) {
+            margin: 0;
+            border: none;
+        }
+
+        ::v-deep(.el-upload) {
+            flex-shrink: 0;
+        }
+    }
+}

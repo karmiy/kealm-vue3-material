@@ -87,6 +87,7 @@ JSON 划分为：
                     "label": "按钮类型",
                     "beauty": {
                         "type": "select", // 使用 <select> 组件来表示
+                        “tip": "这是提示", // 会在配置后出现 ? 图标用于提示描述
                         "config": { // <select> 组件配置
                             "options": [
                                 { "label": "Default", "value": "default" },
@@ -123,10 +124,13 @@ Beauty 组件 type：
 
 - string：文本组件
 - number：数字组件
-- upload：上传组件
+- icon 图标选择
+- image：上传图片组件
 - select：单选组件
 - switch：开关组件
 - color：颜色组件
+- array-map：对象数组组件
+- measure：尺寸组件
 - time：时间组件
 
 ### 物料控制权

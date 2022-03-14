@@ -37,5 +37,12 @@ export default defineConfig({
     },
     server: {
         host: '0.0.0.0',
+        proxy: {
+            '/upload': {
+                target: 'https://www.lanshan-h5.cn',
+                changeOrigin: true,
+                // rewrite: path => path.replace(/^\/upload/, ''),
+            },
+        },
     },
 });

@@ -10,7 +10,7 @@ interface Option {
     value: Value;
 }
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
         required: true,
@@ -38,7 +38,7 @@ const onChange = (val: Value) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <config-item :class="beautyClassName('select')" :label="label">
+    <config-item :class="beautyClassName('select')" v-bind="props">
         <el-select
             :model-value="modelValue"
             :placeholder="placeholder"

@@ -2,7 +2,7 @@
 import { ConfigItem } from '@/components';
 import { beautyClassName } from '@/utils/beauty';
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
         required: true,
@@ -18,7 +18,7 @@ const onChange = (val: string) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <config-item :class="beautyClassName('color')" :label="label">
+    <config-item :class="beautyClassName('color')" v-bind="props">
         <el-color-picker :model-value="modelValue" @update:modelValue="onChange" />
     </config-item>
 </template>

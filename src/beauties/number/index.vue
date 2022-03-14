@@ -2,7 +2,7 @@
 import { ConfigItem } from '@/components';
 import { beautyClassName } from '@/utils/beauty';
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
         required: true,
@@ -32,7 +32,7 @@ const onChange = (val: number) => {
 </script>
 
 <template>
-    <config-item :class="beautyClassName('number')" :label="label">
+    <config-item :class="beautyClassName('number')" v-bind="props">
         <el-input-number
             :model-value="modelValue"
             :min="min"

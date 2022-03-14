@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { PropType } from 'vue';
-/* {
-    label: string;
-    align?: 'top' | 'center' | 'bottom';
-} */
+import { QuestionFilled } from '@element-plus/icons-vue';
+
 defineProps({
     label: {
         type: String,
@@ -16,6 +14,9 @@ defineProps({
     list: {
         type: Array as PropType<Array<{ label: string }>>,
         default: () => [],
+    },
+    tip: {
+        type: String,
     },
 });
 </script>
@@ -36,6 +37,11 @@ defineProps({
         </div>
         <div class="flex-1">
             <slot />
+        </div>
+        <div v-if="tip" class="flex items-center ml-4 cursor-pointer">
+            <el-tooltip effect="dark" :content="tip" placement="bottom">
+                <el-icon :size="16"><question-filled /></el-icon>
+            </el-tooltip>
         </div>
     </div>
 </template>

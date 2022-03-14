@@ -1,0 +1,6 @@
+@import '@/assets/styles/var.scss';
+@import '@/assets/styles/mixins.scss';
+
+@include material(image) {
+    vertical-align: middle;
+}

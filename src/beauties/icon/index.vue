@@ -4,7 +4,7 @@ import { ConfigItem } from '@/components';
 import { beautyClassName } from '@/utils/beauty';
 import { ICON_GROUPS } from './constants';
 
-defineProps({
+const props = defineProps({
     label: {
         type: String,
         required: true,
@@ -24,7 +24,7 @@ const onChange = (val: string) => emits('update:modelValue', val);
 </script>
 
 <template>
-    <config-item :class="beautyClassName('icon')" :label="label">
+    <config-item :class="beautyClassName('icon')" v-bind="props">
         <el-select
             :model-value="modelValue"
             :placeholder="placeholder"

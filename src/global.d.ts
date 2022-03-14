@@ -38,6 +38,7 @@ declare namespace EditorNS {
     /* 属性配置器 */
     interface Beauty {
         type: string;
+        tip?: string;
         config?: Record<string, SchemaValue>;
     }
 

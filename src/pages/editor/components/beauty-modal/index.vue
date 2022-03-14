@@ -66,6 +66,7 @@ const onModelValueChange = (value: EditorNS.FlatValue, prop: string) => {
                                             :model-value="selectedTemplate?.config?.[item.prop]"
                                             :label="item.label"
                                             v-bind="item.beauty.config"
+                                            :tip="item.beauty.tip"
                                             @update:modelValue="
                                                 onModelValueChange($event, item.prop)
                                             "
